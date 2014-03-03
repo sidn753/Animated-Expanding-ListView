@@ -21,10 +21,12 @@ public class MainActivity extends Activity {
 	private ListAdapter adapter;
 
 	private final int COLLAPSED_HEIGHT_1 = 150, COLLAPSED_HEIGHT_2 = 200,
-			COLLAPSED_HEIGHT_3 = 250, COLLAPSED_HEIGHT_4 = 300;
+			COLLAPSED_HEIGHT_3 = 250;
 
-	private final int EXPANDED_HEIGHT_1 = 500, EXPANDED_HEIGHT_2 = 600,
-			EXPANDED_HEIGHT_3 = 750, EXPANDED_HEIGHT_4 = 800;
+	private final int EXPANDED_HEIGHT_1 = 250, EXPANDED_HEIGHT_2 = 300,
+			EXPANDED_HEIGHT_3 = 350, EXPANDED_HEIGHT_4 = 400;
+
+	private boolean accordion = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +66,24 @@ public class MainActivity extends Activity {
 			fromHeight = listItem.getCollapsedHeight();
 			toHeight = listItem.getExpandedHeight();
 
+			// This closes all item before the selected one opens
+			if (accordion) {
+				closeAll();
+			}
 		}
 
 		toggleAnimation(listItem, position, fromHeight, toHeight, true);
+	}
+
+	private void closeAll() {
+		int i = 0;
+		for (ListItem listItem : listItems) {
+			if (listItem.isOpen()) {
+				toggleAnimation(listItem, i, listItem.getExpandedHeight(),
+						listItem.getCollapsedHeight(), false);
+			}
+			i++;
+		}
 	}
 
 	private void toggleAnimation(final ListItem listItem, final int position,
@@ -135,20 +152,20 @@ public class MainActivity extends Activity {
 		listItems
 				.add(new ListItem(
 						"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
-						COLLAPSED_HEIGHT_4, COLLAPSED_HEIGHT_4,
+						COLLAPSED_HEIGHT_2, COLLAPSED_HEIGHT_2,
 						EXPANDED_HEIGHT_4));
 
 		listItems
 				.add(new ListItem(
 						"At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.",
 						COLLAPSED_HEIGHT_1, COLLAPSED_HEIGHT_1,
-						EXPANDED_HEIGHT_1));
+						EXPANDED_HEIGHT_4));
 
 		listItems
 				.add(new ListItem(
 						"Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.",
 						COLLAPSED_HEIGHT_2, COLLAPSED_HEIGHT_2,
-						EXPANDED_HEIGHT_2));
+						EXPANDED_HEIGHT_4));
 
 		listItems
 				.add(new ListItem(
@@ -159,7 +176,7 @@ public class MainActivity extends Activity {
 		listItems
 				.add(new ListItem(
 						"Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.",
-						COLLAPSED_HEIGHT_4, COLLAPSED_HEIGHT_4,
+						COLLAPSED_HEIGHT_1, COLLAPSED_HEIGHT_1,
 						EXPANDED_HEIGHT_4));
 
 	}
